@@ -2,6 +2,13 @@
 
 Full-stack Instagram-style feed/reels experience built with React 19 + Vite on the frontend and Express/MongoDB on the backend. Includes JWT auth, post/reel creation with media uploads, comments, and a modern Tailwind UI.
 
+## Demo
+Place `lv_0_20251226195436.mp4` in a `media/` folder at the repo root (next to this README) so the inline player works on GitHub:
+
+<video controls width="720" src="media/lv_0_20251226195436.mp4"></video>
+
+[Download the demo video](media/lv_0_20251226195436.mp4)
+
 ## Project Structure
 - `frontend/` – React app (protected routes for feed, reels, profile, messages; Tailwind + Framer Motion; axios services)
 - `backend/` – Express API (auth/posts/reels routes, MongoDB via Mongoose, multer uploads to `/uploads`)
