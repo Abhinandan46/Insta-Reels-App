@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL
 
 function Backdrop({ children, onClose }) {
   return (

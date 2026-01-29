@@ -23,7 +23,7 @@ npm install
 npm install
 npm start
 ```
-Runs at http://localhost:5000 with MongoDB expected at mongodb://localhost:27017/insta_reels.
+Runs at https://insta-reels-app.onrender.com with MongoDB Atlas.
 
 3) Frontend (from /frontend)
 ```
@@ -32,7 +32,8 @@ npm run dev
 Vite dev server starts at http://localhost:5173 and proxies API calls to `/api` by default.
 
 ## Environment
-- Frontend: `VITE_API_BASE_URL` to point axios to the API (default `/api`)
+- Frontend: `VITE_API_URL` to point to the deployed backend (default `http://localhost:5000` for development)
+- Production: Set `VITE_API_URL=https://insta-reels-app.onrender.com`
 - Backend: set `PORT` (default 5000) and Mongo connection string if not using local Mongo
 
 ## Scripts

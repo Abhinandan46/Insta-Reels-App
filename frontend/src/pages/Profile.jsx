@@ -26,7 +26,7 @@ const HIGHLIGHTS = [
 
 const PROFILE_STORE_KEY = 'insta_reels_profile';
 
-const API_ORIGIN = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_ORIGIN = import.meta.env.VITE_API_URL;
 const normalizeMediaUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;

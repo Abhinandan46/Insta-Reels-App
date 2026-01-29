@@ -109,8 +109,8 @@ cd backend
 npm install
 npm start
 ```
-🔗 Backend default runs at `http://localhost:5000`  
-📂 MongoDB default is `mongodb://localhost:27017/insta_reels`  
+🔗 Backend deployed at `https://insta-reels-app.onrender.com`  
+📂 MongoDB connected to MongoDB Atlas  
 
 ---
 
@@ -137,8 +137,13 @@ VITE_API_BASE_URL=/api
 #### Backend (`backend/.env`)
 ```text
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/insta_reels
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster0.xxxxx.mongodb.net/your-database
 JWT_SECRET=your_super_secret_key
+```
+
+#### Frontend (`frontend/.env`)
+```text
+VITE_API_URL=https://insta-reels-app.onrender.com
 ```
 
 ---
