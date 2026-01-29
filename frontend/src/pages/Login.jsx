@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import { AuthService } from '../services/api.jsx'
+import { AuthService } from '../services/api'
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -50,6 +50,7 @@ function Login() {
               className="w-full rounded-lg border border-slate-300 bg-slate-100 px-3 py-2 text-sm outline-none ring-indigo-500/60 focus:border-indigo-500 focus:ring dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               placeholder="your username"
               required
+              autoComplete="username"
             />
           </div>
           <div className="space-y-1">

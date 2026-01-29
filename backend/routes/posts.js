@@ -10,7 +10,7 @@ const upload = require('../middleware/upload');
 router.post('/upload', auth, upload.single('media'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
   // Return public URL for uploaded file
-  const fileUrl = `/uploads/${req.file.filename}`;
+  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
   res.json({ url: fileUrl });
 });
 

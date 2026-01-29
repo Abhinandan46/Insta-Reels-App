@@ -73,7 +73,6 @@ function CreatePostModal({ open, onClose }) {
         caption,
         hashtags: tags,
       });
-      if (!res.ok) throw new Error('Failed to create post');
       setLoading(false);
       onClose();
     } catch (err) {
