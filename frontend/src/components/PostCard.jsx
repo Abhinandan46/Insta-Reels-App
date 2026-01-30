@@ -21,6 +21,10 @@ function PostCard({ post }) {
   const { token, user } = useAuth()
 
   useEffect(() => {
+    // Only load comments for real posts (not fallback posts)
+    const isValidObjectId = /^[a-f\d]{24}$/i.test(post.id)
+    if (!isValidObjectId) return
+
     let cancelled = false
     const load = async () => {
       try {
@@ -45,6 +49,7 @@ function PostCard({ post }) {
 
   const handleCommentSubmit = async () => {
     if (!commentText.trim()) return
+    if (!/^[a-f\d]{24}$/i.test(post.id)) return // Skip for fallback posts
     setCommentLoading(true)
     try {
       const { data } = await PostService.addComment(post.id, commentText.trim())
@@ -59,6 +64,7 @@ function PostCard({ post }) {
 
   const handleDeleteComment = async (commentId) => {
     if (!commentId) return
+    if (!/^[a-f\d]{24}$/i.test(post.id)) return // Skip for fallback posts
     setDeletingCommentId(commentId)
     try {
       await PostService.deleteComment(post.id, commentId)

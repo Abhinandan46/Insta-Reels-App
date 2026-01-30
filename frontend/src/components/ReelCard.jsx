@@ -20,11 +20,11 @@ function ReelCard({ reel, isActive, onVisible, index, total, muted, onToggleMute
   const { ref, inView } = useInView({ threshold: 0.75 })
   const [likedOverlay, setLikedOverlay] = useState(false)
   const isYouTube = useMemo(
-    () => reel.videoUrl.includes('youtube.com') || reel.videoUrl.includes('youtu.be'),
+    () => reel.videoUrl && (reel.videoUrl.includes('youtube.com') || reel.videoUrl.includes('youtu.be')),
     [reel.videoUrl],
   )
   const isInstagram = useMemo(
-    () => reel.videoUrl.includes('instagram.com'),
+    () => reel.videoUrl && reel.videoUrl.includes('instagram.com'),
     [reel.videoUrl],
   )
   const instagramEmbed = useMemo(() => (isInstagram ? toInstagramEmbed(reel.videoUrl) : ''), [isInstagram, reel.videoUrl])
@@ -61,9 +61,14 @@ function ReelCard({ reel, isActive, onVisible, index, total, muted, onToggleMute
       ref={ref}
       className="flex h-screen snap-start items-center justify-center bg-black"
     >
-      <div className="relative h-[90vh] w-full max-w-sm overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 text-slate-50 shadow-2xl">
+      <div className="relative h-[90vh] w-full max-w-xs sm:max-w-sm overflow-hidden rounded-2xl sm:rounded-3xl border border-slate-800 bg-slate-900/80 text-slate-50 shadow-2xl">
         {/* Video, YouTube, Instagram */}
-        {isYouTube ? (
+        {reel.embedHtml ? (
+          <div
+            className="h-full w-full"
+            dangerouslySetInnerHTML={{ __html: reel.embedHtml }}
+          />
+        ) : isYouTube ? (
           <iframe
             className="h-full w-full object-cover"
             src={reel.videoUrl.replace('/shorts/', '/embed/') + (isActive ? '?autoplay=1' : '')}
@@ -110,40 +115,40 @@ function ReelCard({ reel, isActive, onVisible, index, total, muted, onToggleMute
         </div>
 
         {/* Top user bar */}
-        <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-4 py-3 text-xs text-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900/70 text-[10px] font-semibold">
-              {reel.userInitials}
+        <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 text-xs text-slate-100">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-slate-900/70 text-[9px] sm:text-[10px] font-semibold">
+              {reel.author ? reel.author.slice(0, 2).toUpperCase() : reel.userInitials}
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold">@{reel.username}</span>
-              <span className="text-[11px] text-slate-300">{reel.audio}</span>
+              <span className="font-semibold text-xs sm:text-sm">{reel.author ? reel.author : `@${reel.username}`}</span>
+              <span className="text-[9px] sm:text-[11px] text-slate-300">{reel.title || reel.audio}</span>
             </div>
           </div>
-          <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] text-slate-200">
+          <span className="rounded-full bg-black/40 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] text-slate-200">
             {reel.timeAgo}
           </span>
         </div>
 
         {/* Bottom actions + caption */}
-        <div className="absolute inset-x-0 bottom-0 flex justify-between px-3 pb-6 pt-4 text-slate-50">
-          <div className="max-w-[70%] space-y-1 text-xs">
-            <p className="font-semibold">@{reel.username}</p>
-            <p className="text-[11px] text-slate-100">{reel.caption}</p>
-            <p className="mt-1 text-[11px] text-indigo-200">
+        <div className="absolute inset-x-0 bottom-0 flex justify-between px-2 sm:px-3 pb-4 sm:pb-6 pt-3 sm:pt-4 text-slate-50">
+          <div className="max-w-[70%] space-y-0.5 sm:space-y-1 text-xs sm:text-xs">
+            <p className="font-semibold text-sm sm:text-sm">@{reel.username}</p>
+            <p className="text-[10px] sm:text-[11px] text-slate-100">{reel.caption}</p>
+            <p className="mt-0.5 sm:mt-1 text-[10px] sm:text-[11px] text-indigo-200">
               {reel.hashtags.map((tag) => `#${tag}`).join(' ')}
             </p>
           </div>
-          <div className="flex flex-col items-center gap-4 text-xs">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 text-xs">
             <motion.button
               whileTap={{ scale: 0.8 }}
-              className="flex flex-col items-center gap-1"
+              className="flex flex-col items-center gap-0.5 sm:gap-1"
               type="button"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-base">
+              <span className="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/60 text-sm sm:text-base">
                 ♥
               </span>
-              <span>{reel.likes.toLocaleString()}</span>
+              <span className="text-[10px] sm:text-xs">{reel.likes.toLocaleString()}</span>
             </motion.button>
 
             <motion.button

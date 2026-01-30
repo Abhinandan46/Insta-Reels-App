@@ -12,14 +12,14 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://insta-reels-app.onrender.com', 'https://insta-reels-app-1.onrender.com'],
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
   credentials: true
 }));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('/tmp/uploads'));
 
 mongoose.connection.on('connected', () => {
   console.log('Connected to MongoDB');
@@ -43,6 +43,12 @@ app.get('*', (req, res) => {
     return res.status(404).json({ error: 'API endpoint not found' });
   }
   res.sendFile(path.join(distPath, 'index.html'));
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
 app.listen(PORT, () => {

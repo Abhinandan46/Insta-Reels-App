@@ -7,11 +7,27 @@ const path = require('path');
 const upload = require('../middleware/upload');
 
 // Upload media file
-router.post('/upload', auth, upload.single('media'), (req, res) => {
-  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
-  // Return public URL for uploaded file
-  const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-  res.json({ url: fileUrl });
+router.post('/upload', auth, (req, res, next) => {
+  upload.single('media')(req, res, (err) => {
+    if (err) {
+      console.error('Multer error:', err);
+      return res.status(500).json({ message: 'Upload failed', error: err.message });
+    }
+    next();
+  });
+}, (req, res) => {
+  try {
+    console.log('Upload route hit');
+    console.log('req.file:', req.file);
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+    // Return public URL for uploaded file
+    const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    console.log('fileUrl:', fileUrl);
+    res.json({ url: fileUrl });
+  } catch (err) {
+    console.error('Error in upload route:', err);
+    res.status(500).json({ message: 'Failed to upload file', error: err.message });
+  }
 });
 
 // Create a new post
